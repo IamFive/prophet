@@ -1,0 +1,115 @@
+<div class="container">
+
+<ul class="breadcrumb">
+	<li>
+		<a href="#/campaigns">Templates</a>
+		<span class="divider">/</span>
+	</li>
+	<li class="active">{{action}} template</li>
+</ul>
+
+<!-- head form -->
+<form name="fsForm">
+	<div class="row">
+		<div class="span1">
+			<p class="text-left">Title:</p>
+		</div>
+		<div class="span3">
+			<input ng-model="tpl.title" name="title" type="text" placeholder="Input template title" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="span4">
+			<div class="row">
+				<div class="span1">
+					<p class="text-left">Froms:</p>
+				</div>
+				<div class="span3">
+					<div class="input-append" >
+						<input name="from" type="email" placeholder="Add From Email Addr" ng-model="from" ui-validate="'vFrom($value)'"/>
+						<button class="btn" type="button" ng-click="onAddFrom()"
+							data-ng-disabled="!fsForm.from.$valid">Add</button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span4 offset1">
+					<div class="input-append" ng-repeat="f in tpl.fromaddrs">
+						<input type="text" value="{{f}}" ng-disabled="true">
+						<button class="btn" type="button" tooltip="Remove item" ng-click="onRemoveItem(tpl.fromaddrs, f)">X</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="span4">
+			<div class="row">
+				<div class="span1">
+					<p class="text-left">Subjects:</p>
+				</div>
+				<div class="span3">
+					<div class="input-append">
+						<input name="subject" type="text" placeholder="Add Subject" ng-model="subject" ui-validate="'vSubject($value)'">
+						<button class="btn" type="button" ng-click="onAddSubject(subject)"
+							data-ng-disabled="!fsForm.subject.$valid">Add</button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span4 offset1">
+					<div class="input-append" ng-repeat="s in tpl.subjects">
+						<input type="text" value="{{s}}" ng-disabled="true">
+						<button class="btn" type="button" tooltip="Remove item" ng-click="onRemoveItem(tpl.subjects, s)">X</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</form>
+
+<!-- html& text -->	
+<div class="row mb30">
+	<tabset class="tabs-left html span12">
+	    <tab heading="HTML">
+	    	<textarea rows="10" ui-tinymce ng-model="tpl.html"></textarea>
+	    </tab>
+	    <tab heading="Text">
+			<textarea rows="15" class="span11" ng-model="tpl.text"></textarea>
+	    </tab>
+	</tabset>
+</div>
+
+<!-- tokens -->
+<div class="row ">
+	<div class="span3" ng-repeat="token in tpl.tokens">
+		<div class="row">
+			<div class="input-append span3">
+				<input ng-model="token.name" type="text" placeholder="token name" tooltip="Token 1">
+				<button class="btn" type="button" tooltip="Remove" 
+					ng-click="onRemoveToken(token)">X</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<textarea ng-model="token.str" rows="3" placeholder="token values" class="span3 noresize" tooltip="input tokens"></textarea>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- tool bar -->
+<div class="navbar navbar-fixed-bottom" >
+	<div class="navbar-inner">
+		<div class="container">
+			<div class="btn-group">
+				<button class="btn" ng-click="onClone()" ng-if="false">Clone</button>
+				<button class="btn" ng-click="onAddToken()">Add token</button>
+			</div>
+			<div class="pull-right">
+				<button type="button" class="btn btn-success" ng-click="onSave();">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>

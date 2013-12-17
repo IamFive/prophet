@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="well center" >
+		<form class="form-horizontal" ng-submit="onLogin()" name="loginForm">
+			<fieldset>
+				<legend>Login Form</legend>
+				<div class="control-group">
+					<label class="control-label" for="email">Email</label>
+					<div class="controls">
+						<input type="email" id="email" ng-model="email" placeholder="Email"
+							required="required" autofocus="autofocus"></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input type="password" id="password" ng-model="password" placeholder="Password"
+							required="required" ></div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<label class="checkbox">
+							<input type="checkbox" data-ng-model="rememberme">Remember me</label>
+						<button type="submit" class="btn" data-ng-disabled="loginForm.$invalid">Sign in</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

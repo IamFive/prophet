@@ -1,0 +1,50 @@
+<div class="container">
+	<ul class="breadcrumb">
+		<li>
+			<a href="#/recipients">Recipients</a>
+			<span class="divider">/</span>
+		</li>
+		<li class="active">Uploads</li>
+	</ul>
+
+	<div class="row mb30">
+		<tabset class="html span12">
+		    <tab heading="FTP" select="actived='ftp'">	
+		    	<smart-table table-css="table table-bordered table-hover" columns="ccFtp"
+        			ds="dsFtp" config="gcFtp"></smart-table>
+		    </tab>
+		    <tab heading="Server" select="actived='server'" >
+				<smart-table table-css="table table-bordered table-hover" columns="ccZip"
+        			ds="dsZip" config="gcZip"></smart-table>
+		    </tab>
+		</tabset>
+	</div>
+
+
+	<div class="navbar navbar-fixed-bottom">
+		<div class="navbar-inner">
+			<div class="container" ng-switch on="actived">
+				<div ng-switch-when="ftp">
+					<div class="btn-group pull-right">
+						<button type="button" class="btn btn-success" ng-class="{'disabled':!selectedFtp}" 
+							tooltip="{{!selectedFtp ? 'Need choose a ftp record to transfer!':''}}" ng-click="transfer();">
+							Transfer to Server
+						</button>
+					</div>
+				</div>
+				<div ng-switch-when="server">
+					<!-- 
+					<div class="btn-group">
+						<button class="btn" ng-click="onEdit()" ng-disabled="!selectedItem">Edit</button>
+						<button class="btn" ng-click="onDelete()" ng-disabled="!selectedItem">Delete</button>
+					</div>
+					-->
+					<div class="pull-right">
+						<button type="button" class="btn btn-success"  ng-class="{'disabled':!selectedZip}" 
+							tooltip="{{!selectedZip ? 'Need choose a record to import':''}}" ng-click="goImport();">Import</button>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+</div>

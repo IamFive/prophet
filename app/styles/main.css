@@ -1,0 +1,91 @@
+body {
+    /*background: #fafafa;*/
+    background: #ffffff;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+}
+
+.fixed-wrap {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 979px) {
+    .fixed-wrap {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.nav, .pagination, .carousel a { 
+    cursor: pointer; 
+}
+
+/* Css for smart table */
+
+.sort-ascent:before {
+    content: "\25B4";
+}
+
+.sort-descent:before {
+    content: "\25BE";
+}
+
+.smart-table-data-row.selected {
+    background: darkgray;
+}
+
+textarea.noresize {
+    resize: none;
+}
+
+/*** Common parts **/
+.mt0 {
+  margin-top: 0;
+}
+
+.mb4 {
+  margin-bottom: 4px;
+}
+
+.mb6 {
+  margin-bottom: 6px;
+}
+
+.mb12 {
+    margin-bottom: 12px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.mb30 {
+    margin-bottom: 20px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+/*** template module **/
+
+.html > .nav-tabs {
+  margin-right: 0px;
+}
+
+.deleted {
+  text-decoration: line-through;
+}

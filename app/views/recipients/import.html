@@ -1,0 +1,59 @@
+<div class="container">
+	<ul class="breadcrumb">
+		<li>
+			<a href="#/recipients">Recipients</a>
+			<span class="divider">/</span>
+			<a href="#/recipients/uploads">Uploads</a>
+			<span class="divider">/</span>
+		</li>
+		<li class="active">Import</li>
+	</ul>
+	
+	<form name="importConfigForm">
+		<div class="row">
+			<div class="span12">
+			    <div class="btn-group">
+			    	<button type="button" class="btn" ng-model="ops.ignoreHeader" btn-checkbox>
+			    		ignore first line
+			    	</button>		    	
+			    	<button type="button" class="btn" ng-model="ops.headerAsToken" btn-checkbox>
+			    		First line as token
+			    	</button>
+			    </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span4" ng-repeat="column in desc.columns">
+				<div ng-class="{'pretty-header' : true, 'pretty-header-spec' : ops.emailColIdx==$index}">
+					<div class="input-prepend input-append">
+						<span class="add-on">Column {{$index+1}} </span>
+						<input class="span2" type="text"
+							placeholder="input token name.." 
+							ng-model="desc.tokens[$index]" 
+							ng-disabled="ops.emailColIdx==$index" 
+							typeahead="token for token in usedTokens" 
+							/>
+						<span class="add-on">
+							<input type="radio" name="email" value="{{$index}}" ng-model="ops.emailColIdx" tooltip="set as email column (*required)">
+						</span>
+					</div>
+				</div>
+				<pre class="prettyprint linenums"><ol class="linenums"><li class="L{{$index}}" ng-repeat="line in column track by $index"><span ng-class="{'deleted': ops.ignoreHeader && $index == 0}">{{line}}</span></li><li><span>....</span></li></ol></pre>
+			</div>
+		</div>
+	</form>
+
+	<!-- tool bar -->
+	<div class="navbar navbar-fixed-bottom" >
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="pull-right">
+					<button type="button" class="btn btn-success" ng-click="onSave();">
+						Submit
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,5 @@
+<span class="label" ng-class="{ 'label-important': formatedValue == 2, 
+								'label-info': formatedValue == 3, 
+							    'label-success': formatedValue == 4 }">
+	{{formatedValue == 2 ? 'Unused' : (formatedValue == 3 ? 'Importing' : 'Imported')}}
+</span>

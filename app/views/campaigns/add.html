@@ -1,0 +1,28 @@
+<div class="container">
+
+	<ul class="breadcrumb">
+	  <li><a href="#/campaigns">Campaigns</a><span class="divider">/</span></li>
+	  <li class="active">Add Campaign</li>
+	</ul>
+
+	<div class="span6 center">
+	    <form class="form-horizontal" name="addCampaignForm">
+	    	<div class="control-group">
+	    		<label class="control-label" for="title"><strong>Input campaign title:</strong></label>
+	    		<div class="controls">
+	    			<input id="title" type="text" placeholder="input campaign title" 
+						ng-model="campaign.title" required autofocus></div>
+	    	</div>
+	    </form>
+	</div>
+
+	<div class="navbar navbar-fixed-bottom" >
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="pull-right">
+					<button type="button" class="btn btn-success" ng-click="onAdd();" data-ng-disabled="addCampaignForm.$invalid">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
