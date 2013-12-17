@@ -149,7 +149,7 @@ function RecipientUploadListCtrl($scope, $location, TransferStatus, Recipients, 
 			if ($scope.selectedZip.status === TransferStatus.Unused) {
 				$location.path('/recipients/zips/' + $scope.selectedZip._id + '/import');
 			} else {
-				dialog.message('Tips', 'Only Unused file can be imported.');
+				dialog.message('Failed', 'Only Unused file can be imported.');
 			}
 		} 
 	};
