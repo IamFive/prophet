@@ -4,9 +4,15 @@
 function CampaignAddCtrl($scope, $location, campaign, Campaigns) {
 	$scope.campaign = campaign;
 	$scope.onAdd = function() {
-		Campaigns.add($scope.campaign).then(function(campaign){
-			$location.path('/campaigns');
-		});
+		if ($scope.campaign._id) {
+			Campaigns.update($scope.campaign).then(function(campaign){
+				$location.path('/campaigns');
+			});
+		} else {
+			Campaigns.add($scope.campaign).then(function(campaign){
+				$location.path('/campaigns');
+			});
+		}
 	};
 
 }

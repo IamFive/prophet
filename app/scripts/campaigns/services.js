@@ -9,6 +9,10 @@ angular.module('prophet')
             return Requestor.post('/campaigns/', campaign);
         };
 
+        Campaigns.update = function(campaign) {
+            return Requestor.put('/campaigns/' + campaign._id, campaign);
+        };
+
         Campaigns.get = function(id) {
             return Requestor.get('/campaigns/' + id);
         };
