@@ -90,7 +90,7 @@ function RecipientUploadListCtrl($scope, $location, TransferStatus, Recipients, 
 	 */
 	$scope.ccZip = [
 		{ label: 'name', map: 'name'}, 
-		{ label: 'line', map: 'line'}, 
+		{ label: 'success', map: 'success'}, 
 		{ label: 'upload on', map: 'upload_on'}, 
 		{ label: 'transfer on', map: 'import_on'}, 
 		{ label: 'size', map: 'size'},
@@ -269,8 +269,9 @@ function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, di
 				'emailColIdx' : idx
 			};
 
-			Recipients.importZip($scope.desc.zip_id, formdata);
-
+			Recipients.importZip($scope.desc.zip_id, formdata).then(function(){
+				$location.path('/recipients/uploads');
+			})
 		} else {
 			dialog.message('Failed', 'You must specify a column as email column.');
 		}
