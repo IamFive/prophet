@@ -1,6 +1,51 @@
 'use strict';
 
-function RecipientListCtrl($scope, $location, Recipients) {
+function RecipientListCtrl($scope, $location, Recipients, dialog) {
+
+	$scope.fileId = '';
+
+	$scope.zipSelector = {
+		allowClear: true,
+		placeholder: "Pick import file",
+		initSelection: function(element, callback) {
+          //TO FIX BUG - https://github.com/ivaynberg/select2/issues/1470
+          	$scope.$watch('zip', function(){
+				$scope.$broadcast('reloadST');
+			});
+        },
+		ajax: {
+			url: '/api/recipients/zips',
+			data: function(term, page) {
+				var filter = {};
+				filter.status = 4;
+
+				if(term !== '') {
+					filter.name__icontains = term;
+				}
+
+				return {
+					'rformat' : 'json',
+					'where' : angular.toJson(filter)
+				}; // query params go here
+			},
+			results: function(data, page) { 
+
+				var filtered = data.result.data;
+				var results = [];
+				for (var i = filtered.length - 1; i >= 0; i--) {
+					var item = filtered[i];
+					results.unshift({
+						'id' : item._id,
+						'text' : item.name
+					});
+				}
+
+				return {
+					results: results
+				};
+			}
+		}
+	};
 
 	$scope.columnCollection = [
 		{ label: 'email', map: 'email'}, 
@@ -21,7 +66,13 @@ function RecipientListCtrl($scope, $location, Recipients) {
 
 	// you can load data from remote here.
 	$scope.ds = function(page, limit, sort, reverse) {
-		return Recipients.list(page, limit, sort, reverse);
+		if ($scope.zip && $scope.zip.id) {
+			var where = {'zip' : $scope.zip.id};
+			return Recipients.list(page, limit, sort, reverse, where);
+		}
+		else {
+			return Recipients.list(page, limit, sort, reverse);
+		}
 	};
 
 
@@ -40,7 +91,7 @@ function RecipientListCtrl($scope, $location, Recipients) {
 		if($scope.selectedItem) {
 			$location.path('/recipients/' + $scope.selectedItem._id + '/edit');
 		} else {
-			window.alert('please select a record.');
+			dialog.message('Not allowed', 'please select a record.');
 		}
 	};
 
@@ -50,7 +101,7 @@ function RecipientListCtrl($scope, $location, Recipients) {
 				$scope.$broadcast('reloadST');
 			});
 		} else {
-			window.alert('please select a record.');
+			dialog.message('Not allowed', 'please select a record.');
 		}
 	};
 }
@@ -154,6 +205,25 @@ function RecipientUploadListCtrl($scope, $location, TransferStatus, Recipients, 
 		} 
 	};
 }
+
+
+function RecipientEditCtrl($scope, Recipients, recipient, dialog) {
+	$scope.recipient = recipient;
+
+
+	$scope.onSave = function() {
+		dialog.message(':)', 'not implemented yet.');
+	};
+
+}
+
+RecipientEditCtrl.resolve = {
+	recipient: function(Recipients, $route) {
+		if ($route.current.params.id) {
+			return Recipients.get($route.current.params.id);
+		}
+	}
+};
 
 
 function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, dialog) {
@@ -271,7 +341,7 @@ function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, di
 
 			Recipients.importZip($scope.desc.zip_id, formdata).then(function(){
 				$location.path('/recipients/uploads');
-			})
+			});
 		} else {
 			dialog.message('Failed', 'You must specify a column as email column.');
 		}

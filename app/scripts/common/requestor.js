@@ -51,7 +51,7 @@ angular.module('rest.api', ['env'])
             }
 
             if (where) {
-                params.where = where;
+                params.where = angular.toJson(where);
             }
 
 

@@ -14,8 +14,8 @@ angular.module('prophet')
         };
 
 
-        Recipients.list = function(page, limit, sort, reverse) {
-            return Requestor.list('/recipients/', page, limit, sort, reverse);
+        Recipients.list = function(page, limit, sort, reverse, where) {
+            return Requestor.list('/recipients/', page, limit, sort, reverse, where);
         };
 
 

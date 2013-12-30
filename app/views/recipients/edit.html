@@ -1,0 +1,46 @@
+<div class="container">
+	<ul class="breadcrumb">
+		<li>
+			<a href="#/recipients">Recipients</a>
+			<span class="divider">/</span>
+		</li>
+		<li class="active">Edit</li>
+	</ul>
+
+	<p class="well">Edit Email : {{recipient.email}}</p>
+	<!-- 
+	<div class="row" ng-repeat="(token, value) in recipient.props">
+		<div class="span2">{{token}}</div>
+		<div class="span3"><input type="text" ng-model="value" style="margin:2px;"></div>
+	</div>
+	-->
+	<table class="table table-bordered" >
+		<thead>
+			<tr>
+				<th class="span3">Token</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="(token, value) in recipient.props">
+				<td>{{token}} </td>
+				<td><input type="text" ng-model="value" style="margin:2px;"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+
+	<!-- tool bar -->
+	<div class="navbar navbar-fixed-bottom" >
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="pull-right">
+					<button type="button" class="btn btn-success" ng-click="onSave();">
+						Submit
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
