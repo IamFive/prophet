@@ -4,18 +4,19 @@ function RecipientListCtrl($scope, $location, Recipients, dialog, S2Helper) {
 
 	$scope.fileId = '';
 
-	$scope.zipSelector = {
+	$scope.listnameSelector = {
 		allowClear: true,
 		placeholder: 'Pick import file',
 		initSelection: function(element, callback) {
 			//TO FIX BUG - https://github.com/ivaynberg/select2/issues/1470
-			$scope.$watch('zip', function() {
+			$scope.$watch('listname', function() {
 				$scope.$broadcast('reloadST');
 			});
         },
-		ajax: S2Helper.selectOption('/api/recipients/zips', '_id', 'name', {status:4})
-		
+		ajax: S2Helper.selectOption('/api/recipients/zips/imports', 'listname', 'listname')
 	};
+
+
 
 	$scope.columnCollection = [
 		{ label: 'email', map: 'email'}, 
@@ -36,8 +37,8 @@ function RecipientListCtrl($scope, $location, Recipients, dialog, S2Helper) {
 
 	// you can load data from remote here.
 	$scope.ds = function(page, limit, sort, reverse) {
-		if ($scope.zip && $scope.zip.id) {
-			var where = {'zip' : $scope.zip.id};
+		if ($scope.listname && $scope.listname.text) {
+			var where = {'listname' : $scope.listname.text};
 			return Recipients.list(page, limit, sort, reverse, where);
 		}
 		else {
