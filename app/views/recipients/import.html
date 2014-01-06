@@ -11,7 +11,7 @@
 	
 	<form name="importConfigForm">
 		<div class="row">
-			<div class="span12">
+			<div class="span3">
 			    <div class="btn-group">
 			    	<button type="button" class="btn" ng-model="ops.ignoreHeader" btn-checkbox>
 			    		ignore first line
@@ -20,6 +20,16 @@
 			    		First line as token
 			    	</button>
 			    </div>
+			</div>
+			<div class="span3">
+				<span>Name:</span>
+				<input type="text" ui-select2="listnameSelector" ng-model="listname" 
+					style="width:180px" placeholder="input list name">
+			</div>
+			<div class="span5">
+				<span>Tags:</span>
+				<input type="text" ui-select2="tagsSelector" ng-model="tags"
+					style="width:280px" placeholder="input tags">
 			</div>
 		</div>
 		<div class="row">

@@ -1,50 +1,20 @@
 'use strict';
 
-function RecipientListCtrl($scope, $location, Recipients, dialog) {
+function RecipientListCtrl($scope, $location, Recipients, dialog, S2Helper) {
 
 	$scope.fileId = '';
 
 	$scope.zipSelector = {
 		allowClear: true,
-		placeholder: "Pick import file",
+		placeholder: 'Pick import file',
 		initSelection: function(element, callback) {
-          //TO FIX BUG - https://github.com/ivaynberg/select2/issues/1470
-          	$scope.$watch('zip', function(){
+			//TO FIX BUG - https://github.com/ivaynberg/select2/issues/1470
+			$scope.$watch('zip', function() {
 				$scope.$broadcast('reloadST');
 			});
         },
-		ajax: {
-			url: '/api/recipients/zips',
-			data: function(term, page) {
-				var filter = {};
-				filter.status = 4;
-
-				if(term !== '') {
-					filter.name__icontains = term;
-				}
-
-				return {
-					'rformat' : 'json',
-					'where' : angular.toJson(filter)
-				}; // query params go here
-			},
-			results: function(data, page) { 
-
-				var filtered = data.result.data;
-				var results = [];
-				for (var i = filtered.length - 1; i >= 0; i--) {
-					var item = filtered[i];
-					results.unshift({
-						'id' : item._id,
-						'text' : item.name
-					});
-				}
-
-				return {
-					results: results
-				};
-			}
-		}
+		ajax: S2Helper.selectOption('/api/recipients/zips', '_id', 'name', {status:4})
+		
 	};
 
 	$scope.columnCollection = [
@@ -226,7 +196,7 @@ RecipientEditCtrl.resolve = {
 };
 
 
-function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, dialog) {
+function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, dialog, S2Helper) {
 
 	$scope.desc = desc;
 	$scope.usedTokens = usedTokens;
@@ -253,6 +223,43 @@ function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, di
 		'ignoreHeader' : false,
 		'bkup' : []
 	};
+
+	$scope.listnameSelector = {
+		allowClear: true,
+		placeholder: 'input listname',
+		initSelection: function(element, callback) {
+			//TO FIX BUG - https://github.com/ivaynberg/select2/issues/1470
+			// $scope.$watch('listname', function(){
+			// });
+		},
+		createSearchChoice: function(term, data) {
+			return {
+				id: term,
+				text: term
+			};
+		},
+		ajax: S2Helper.selectOption('/api/recipients/zips/imports', 'listname', 'listname')
+	};
+
+	$scope.tagsSelector = {
+		allowClear: true,
+		'multiple': true,
+		placeholder: 'input listname',
+		initSelection: function(element, callback) {
+			// $scope.$watch('tags', function(){
+			// 	//console.log($scope.tags);
+			// });
+		},
+		createSearchChoice: function(term, data) {
+			return {
+				id: term,
+				text: term
+			};
+		},
+		'simple_tags': true,
+		'ajax': S2Helper.tagOption('/api/recipients/zips/imports/tags')
+	};
+
 
 
 	/**
@@ -302,6 +309,17 @@ function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, di
 	 */
 	$scope.onSave = function() {
 
+		if(!$scope.listname) {
+			dialog.message('Failed', 'Listname cant be null.');
+			return false;
+		}
+
+		if(!$scope.tags || $scope.tags.length === 0) {
+			dialog.message('Failed', 'Tags cant be null.');
+			return false;
+		}
+
+
 		// validate all tokens
 		var illegals = [];
 		var duplicated = [];
@@ -336,7 +354,9 @@ function RecipientImportCtrl(desc, usedTokens, $scope, $location, Recipients, di
 			var formdata = {
 				'tokens' : $scope.desc.tokens,
 				'ignoreHeader' : $scope.ops.ignoreHeader,
-				'emailColIdx' : idx
+				'emailColIdx' : idx,
+				'listname' : $scope.listname.text,
+				'tags' : $scope.tags
 			};
 
 			Recipients.importZip($scope.desc.zip_id, formdata).then(function(){

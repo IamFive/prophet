@@ -42,6 +42,11 @@ angular.module('prophet')
             return Requestor.get(path);
         };
 
+        Recipients.getImports = function() {
+            var path = '/recipients/zips/imports';
+            return Requestor.get(path);
+        };  
+
         Recipients.importZip = function(id, formdata) {
             var path = '/recipients/zips/' + id + '/import';
             return Requestor.post(path, formdata);
